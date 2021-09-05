@@ -2,3 +2,16 @@ body {
     background-color: bisque !important;
     height: 100vh;
 }
+
+.form-row {
+    margin-left: 30px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    padding-left: 50px;
+}
+
+
+.table-bordered {
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+}

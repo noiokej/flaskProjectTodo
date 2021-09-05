@@ -73,8 +73,12 @@ def important(id):
 
     if request.method == 'GET':
         try:
-            task.content = task.content.upper()
-            task.important = 1
+            if task.important == 0:
+                task.important = 1
+                task.content = task.content.upper()
+            else:
+                task.important = 0
+                task.content = task.content.lower()
             db.session.commit()
             return redirect('/')
         except:

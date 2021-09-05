@@ -6,8 +6,6 @@
 
 {% block body %}
 
-
-
 <div class="container h-100">
     <div class="row align-items-center h-100">
         <div class="col-sm-12 col-lg-8 col-xl-6 mx-auto">
@@ -22,9 +20,9 @@
                 </form>
             </div>
 
-            <table class="table">
+            <table class="table shadow-lg p-3 mb-5 bg-white rounded" style="border-radius: 20px">
             <thead>
-                <tr style="background-color: #c7c4ff">
+                <tr class="bg-secondary" style="color: #eeeeee">
                     <th>Actions</th>
                     <th>Task</th>
                     <th>Added date</th>
@@ -46,7 +44,7 @@
                     </tbody>
 
                 {% else %}
-                    <tbody style="background-color: #ffe5c4">
+                    <tbody style="background-color: #ffdaab">
                         <tr>
                             <td>
                                 <a href="delete/{{task.id}}" style="color: darkred" ><i class="fas fa-trash-alt" title="Delete"></i></a>
