@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Task Manager</title>
+{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container h-100">
+    <div class="row align-items-center h-100">
+        <div class="col-sm-12 col-lg-8 col-xl-6 mx-auto">
+            <div class="row justify-content-md-center">
+                <form class="form-row" action="/" method="POST" style="align-content: center">
+                    <div class="col-sm-9 d-inline-flex">
+                        <input type="text" class="form-control" name="content" id="content">
+                    </div>
+                    <div class="col-sm-2 d-inline-flex">
+                        <input type="submit" class="btn btn-secondary" value="Add Task">
+                    </div>
+                </form>
+            </div>
+
+            <table class="table">
+            <thead>
+                <tr style="background-color: #c7c4ff">
+                    <th>Actions</th>
+                    <th>Task</th>
+                    <th>Added date</th>
+                </tr>
+            </thead>
+
+            {% for task in tasks %}
+                {% if task.important == 1 %}
+                    <tbody style="background-color: #ffc8c4">
+                        <tr>
+                            <td>
+                                <a href="delete/{{task.id}}" style="color: darkred" ><i class="fas fa-trash-alt" title="Delete"></i></a>
+                                <a href="update/{{task.id}}" style="color: darkgreen" ><i class="fas fa-pencil-alt" title="Edit" ></i></a>
+                                <a href="important/{{task.id}}" style="color: sandybrown" ><i class="fas fa-star" title="Important" ></i></a>
+                            </td>
+                            <td>{{ task.content }}</td>
+                            <td style="font-size: 12px" >{{ task.data_created.date() }}</td>
+                        </tr>
+                    </tbody>
+
+                {% else %}
+                    <tbody style="background-color: #ffe5c4">
+                        <tr>
+                            <td>
+                                <a href="delete/{{task.id}}" style="color: darkred" ><i class="fas fa-trash-alt" title="Delete"></i></a>
+                                <a href="update/{{task.id}}" style="color: darkgreen" ><i class="fas fa-pencil-alt" title="Edit" ></i></a>
+                                <a href="important/{{task.id}}" style="color: sandybrown" ><i class="fas fa-star" title="Important" ></i></a>
+                            </td>
+                            <td>{{ task.content }}</td>
+                            <td style="font-size: 12px" >{{ task.data_created.date() }}</td>
+                        </tr>
+                    </tbody>
+
+
+                {% endif %}
+
+            {% endfor %}
+            </table>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
