@@ -16,6 +16,7 @@ class Todo(db.Model):
     content = db.Column(db.String(300), nullable=False)
     important = db.Column(db.Integer, default=0)
     data_created = db.Column(db.DateTime, default=datetime.utcnow)
+    # type_of_task = db.Column(db.String(30), nullable=False)
 
     def __repr__(self):
         return '<Task %r>' % self.id
