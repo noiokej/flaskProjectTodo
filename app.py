@@ -1,7 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, json, jsonify, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
 
 
 app = Flask(__name__)
@@ -33,15 +32,10 @@ class List(db.Model):
 
 ####################################
 
+
 @app.route('/', methods=['POST', 'GET'])
-# def hom():
-#     lists=List.query.all()
-#     return render_template('index.html', lists=lists)
-#     # return 'ffff'
-
-
 def create_list():
-    if request.method == 'POST':
+    if request.method == 'POST' and 'list' in request.form:
         lista = request.form['list']
         new_list = List(name=lista)
 
@@ -53,10 +47,6 @@ def create_list():
             return 'There was an error while adding the task'
 
     else:
-        tasks = Todo.query.all()
-        lists = List.query.all()
-        # return render_template("index.html", tasks=tasks, lists=lists)
-        # return 'xddd'
         lists = List.query.all()
         return render_template('index.html', lists=lists)
 
@@ -65,8 +55,6 @@ def create_list():
 def create_task(id):
     if request.method == 'POST' and 'submit_task' in request.form:
         task_content = request.form['content']
-        # nazwa = request.form['nazwa']
-        # li = List.query.filter_by(name=nazwa).first()
         li = List.query.filter_by(id=id).first()
         lis = List.query.get(li.id)
         new_task = Todo(content=task_content, list=lis)
@@ -81,14 +69,11 @@ def create_task(id):
 
     else:
         return display_task(id)
-        # tasks = Todo.query.all()
-        # lists = List.query.all()
-        # return render_template("index.html", tasks=tasks, lists=lists)
 
 
 def display_task(id):
     list = List.query.filter_by(id=id).first()
-    li=List.query.get(list.id)
+    li = List.query.get(list.id)
 
     taski = Todo.query.filter_by(list=li).order_by('data_created')
     lists = List.query.all()
@@ -99,19 +84,26 @@ def display_task(id):
     return render_template('index.html', lists=lists, taski=taski, id=id, type_of_task=type_of_task, task_remaining=task_remaining)
 
 
+@app.route('/<int:id>/delete', methods=['POST'])
+def delete(id):
+    if request.method == 'POST':
+
+        try:
+            global task
+            tasks_to_delete = request.form['delete'].split(',')
+
+            for i in tasks_to_delete:
+                task = Todo.query.get(i)
+                db.session.delete(task)
+                db.session.commit()
+
+            # return display_task(id)
+            return redirect(f'/{id}')
+        except:
+            return 'There was an error while deleting that task'
+
 
 ##########################################
-@app.route('/delete/<int:id>')
-def delete(id):
-    task_to_delete = Todo.query.get_or_404(id)
-    try:
-        db.session.delete(task_to_delete)
-        db.session.commit()
-        return redirect('/')
-    except:
-        return 'There was an error while deleting that task'
-
-
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
     task = Todo.query.get_or_404(id)

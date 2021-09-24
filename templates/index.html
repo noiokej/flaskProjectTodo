@@ -1,152 +1,113 @@
 {% extends 'base.html' %}
-
 {% block head %}
 <title>Task Manager</title>
 {% endblock %}
 
 {% block body %}
 
-{#<div class="container h-100">#}
-{#    <div class="row align-items-center h-100">#}
-{#        <div class="col-sm-12 col-lg-8 col-xl-6 mx-auto">#}
-{#            <div class="row justify-content-md-center">#}
-{#                <form class="form-row" action="/" method="POST" style="align-content: center">#}
-{#                    <div class="col-sm-9 d-inline-flex">#}
-{#                        <input type="text" class="form-control" name="content" id="content">#}
-{#                    </div>#}
-{#                    <div class="col-sm-2 d-inline-flex">#}
-{#                        <input type="submit" class="btn btn-secondary" value="Add Task">#}
-{#                    </div>#}
-{#                </form>#}
-{#            </div>#}
-{##}
-{#            <table class="table shadow-lg p-3 mb-5 bg-white rounded" style="border-radius: 20px">#}
-{#            <thead>#}
-{#                <tr class="bg-secondary" style="color: #eeeeee">#}
-{#                    <th>Actions</th>#}
-{#                    <th>Task</th>#}
-{#                    <th>Added date</th>#}
-{#                </tr>#}
-{#            </thead>#}
-{##}
-{#            {% for task in tasks %}#}
-{#                {% if task.important == 1 %}#}
-{#                    <tbody style="background-color: #ffc8c4">#}
-{#                        <tr>#}
-{#                            <td>#}
-{#                                <a href="delete/{{task.id}}" style="color: darkred" ><i class="fas fa-trash-alt" title="Delete"></i></a>#}
-{#                                <a href="update/{{task.id}}" style="color: darkgreen" ><i class="fas fa-pencil-alt" title="Edit" ></i></a>#}
-{#                                <a href="important/{{task.id}}" style="color: sandybrown" ><i class="fas fa-star" title="Important" ></i></a>#}
-{#                            </td>#}
-{#                            <td>{{ task.content }}</td>#}
-{#                            <td style="font-size: 12px" >{{ task.data_created.date() }}</td>#}
-{#                        </tr>#}
-{#                    </tbody>#}
-{##}
-{#                {% else %}#}
-{#                    <tbody style="background-color: #ffdaab">#}
-{#                        <tr>#}
-{#                            <td>#}
-{#                                <a href="delete/{{task.id}}" style="color: darkred" ><i class="fas fa-trash-alt" title="Delete"></i></a>#}
-{#                                <a href="update/{{task.id}}" style="color: darkgreen" ><i class="fas fa-pencil-alt" title="Edit" ></i></a>#}
-{#                                <a href="important/{{task.id}}" style="color: sandybrown" ><i class="fas fa-star" title="Important" ></i></a>#}
-{#                            </td>#}
-{#                            <td>{{ task.content }}</td>#}
-{#                            <td style="font-size: 12px" >{{ task.data_created.date() }}</td>#}
-{#                        </tr>#}
-{#                    </tbody>#}
-{##}
-{##}
-{#                {% endif %}#}
-{##}
-{#            {% endfor %}#}
-{#            </table>#}
-
-{#style="width: 100%; vertical-align: top; margin-right: 2rem; margin-left: 2rem; align-items: top; justify-content: center#}
-
 <div class="container h-100", style="max-width: none">
-    <div class="row align-items-center h-100">
-        <div class="col d-inline-block">
-            <div class="col d-flex flex-wrap justify-content-center align-items-start">
-                <div class="all-tasks col-12 col-sm-3 col-md-4 col-lg-3 col-xxl-2">
-                    <h2 class="task-list-title">My list</h2>
-                    <script>
-                        function change(list) {
-                            document.getElementById('hidd').value = list
-                        }
-                    </script>
+    <div class="row align-items-center justify-content-center h-100">
+        <div class="col-12 d-flex flex-wrap all-tasks col-xxl-8  justify-content-center align-items-start">
+            <div class="all-tasks">
+                <h2 class="task-list-title">My list</h2>
+                <script>
+                    function change(list) {
+                        document.getElementById('hidd').value = list
+                    }
+                </script>
+                <ul class="task-list" id="pills-tab" role="tablist">
 
-                    <ul class="task-list" id="pills-tab" role="tablist">
+                     {% for list in lists %}
+                        <li onclick="change('{{ list.name }}')">
+                            <a href="/{{list.id}}">{{ list.name }}</a>
+                        </li>
+                     {% endfor %}
+                </ul>
 
-                         {% for list in lists %}
-                            <li onclick="change('{{ list.name }}')">
-                                <a href="/{{list.id}}">{{ list.name }}</a>
-                            </li>
-                         {% endfor %}
-                    </ul>
+                <form action="/" method="POST">
+                    <input
+                        name="list"
+                        id="list"
+                        type="text"
+                        class="new list"
+                        placeholder="new list name"
+                        aria-label="new list name"
+                    />
+                    <button type="submit"
+                            name="submit_list"
+                            class="btn create"
+                            aria-label="create new list">+</button>
+                </form>
+            </div>
 
-                    <form action="/" method="POST">
-                        <input
-                            name="list"
-                            id="list"
-                            type="text"
-                            class="new list"
-                            placeholder="new list name"
-                            aria-label="new list name"
-                        />
-                        <button type="submit"
-                                name="submit_list"
-                                class="btn create"
-                                aria-label="create new list">+</button>
-                    </form>
+            <div class="todo-list ">
+                <div class="todo-header">
+                    <h2 class="todo-list-title">{{ type_of_task }}</h2>
+                    <p class="task-count">Task remaining: {{ task_remaining|length }}</p>
+                </div>
+                <div class="todo-body">
+                    <div class="tasks">
+
+                        {% for task in taski %}
+                            <div class="task">
+                                <input
+                                    type="checkbox"
+                                    name="checkbox"
+                                    value="{{ task.id }}"
+                                    id="task-{{ task.id }}"
+                                />
+                                <label for="task-{{ task.id }}" onclick="changeDisplay()">
+                                    <span class="custom-checkbox"></span>
+                                    <div style="margin-left: 1.2em">{{ task.content }}</div>
+                                    <input type="hidden" name="task_remaining" value="{{ task_remaining|length }}">
+                                </label>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="new-task-creator d-flex justify-content-between">
+                        <form action="/{{ id }}" method="POST">
+                            <input
+                                name="content"
+                                id="content"
+                                type="text"
+                                class="new task"
+                                placeholder="enter new task"
+                                aria-label="enter new task"
+                            />
+                            <input
+                                type="hidden"
+                                id="hidd"
+                                name="nazwa"
+                                value=""
+                            />
+
+                            <button type="submit"
+                                    name="submit_task"
+                                    class="btn create"
+                                    aria-label="create new task">+</button>
+                        </form>
+                        <div class="trash" id="trash" style="margin-top: 10px; display: flex" >
+                            {% if id %}
+                                <form action="{{ url_for('delete', id=id) }}" method="POST">
+                                    <button type="submit" class="btn btn-primary" style="color: darkred; transform: scale(1.5)">
+                                        <i onclick="deleteCheckedTask()" class="fas fa-trash-alt" title="Delete checked tasks" aria-label="Delete checked tasks"></i>
+                                    </button>
+                                    <input
+                                        type="hidden"
+                                        name="delete"
+                                        id="delete"
+                                        value="xddd"/>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
 
-                <div class="todo-list col-12 col-sm-7 col-md-7 col-lg-5 col-xxl-3">
-                    <div class="todo-header">
-                        <h2 class="todo-list-title">{{ type_of_task }}</h2>
-                        <p class="task-count">Task remaining: {{ task_remaining|length }}</p>
-                    </div>
-                    <div class="todo-body">
-                        <div class="tasks">
-
-                            {% for task in taski %}
-                                <div class="task">
-                                    <input
-                                        type="checkbox"
-                                        id="task-{{ task.id }}"
-                                    />
-                                    <label for="task-{{ task.id }}">
-                                        <span class="custom-checkbox"></span>
-                                        {{ task.content }}
-                                    </label>
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="new-task-creator">
-                            <form action="/{{ id }}" method="POST">
-                                <input
-                                    name="content"
-                                    id="content"
-                                    type="text"
-                                    class="new task"
-                                    placeholder="enter new task"
-                                    aria-label="enter new task"
-                                />
-                                <input
-                                    type="hidden"
-                                    id="hidd"
-                                    name="nazwa"
-                                    value=""
-                                />
-
-                                <button type="submit"
-                                        name="submit_task"
-                                        class="btn create"
-                                        aria-label="create new task">+</button>
-                            </form>
-                        </div>
-                    </div>
+                <div class="todo-footer">
+                    Clear list
                 </div>
             </div>
         </div>
