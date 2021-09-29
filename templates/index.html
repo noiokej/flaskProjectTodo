@@ -16,9 +16,8 @@
                     }
                 </script>
                 <ul class="task-list" id="pills-tab" role="tablist">
-
                      {% for list in lists %}
-                        <li onclick="change('{{ list.name }}')">
+                        <li id="selectedList" onclick="change('{{ list.name }}')">
                             <a href="/{{list.id}}">{{ list.name }}</a>
                         </li>
                      {% endfor %}
@@ -45,6 +44,13 @@
                     <h2 class="todo-list-title">{{ type_of_task }}</h2>
                     <p class="task-count">Task remaining: {{ task_remaining|length }}</p>
                 </div>
+                <div class="list-delete">
+                    {% if id %}
+                        <form action="{{ url_for('delete_list', id=id) }}" method="get">
+                            <button class="btn" type="submit" onclick="return confirm('Are you sure you want to delete this list?');">Delete list</button>
+                        </form>
+                    {% endif %}
+                </div>
                 <div class="todo-body">
                     <div class="tasks">
 
@@ -56,7 +62,7 @@
                                     value="{{ task.id }}"
                                     id="task-{{ task.id }}"
                                 />
-                                <label for="task-{{ task.id }}" onclick="changeDisplay()">
+                                <label for="task-{{ task.id }}" onclick="changeDisplay({{ task.id }})">
                                     <span class="custom-checkbox"></span>
                                     <div style="margin-left: 1.2em">{{ task.content }}</div>
                                     <input type="hidden" name="task_remaining" value="{{ task_remaining|length }}">
@@ -89,7 +95,7 @@
                                     class="btn create"
                                     aria-label="create new task">+</button>
                         </form>
-                        <div class="trash" id="trash" style="margin-top: 10px; display: flex" >
+                        <div class="trash" id="trash" style="display: none; margin-top: 10px;">
                             {% if id %}
                                 <form action="{{ url_for('delete', id=id) }}" method="POST">
                                     <button type="submit" class="btn btn-primary" style="color: darkred; transform: scale(1.5)">
@@ -107,7 +113,11 @@
                 </div>
 
                 <div class="todo-footer">
-                    Clear list
+                    {% if id %}
+                        <form action="{{ url_for('clear', id=id) }}" method="get">
+                            <button class="btn" type="submit" onclick="return confirm('Are you sure you want to clear this list?');">Clear list</button>
+                        </form>
+                    {% endif %}
                 </div>
             </div>
         </div>

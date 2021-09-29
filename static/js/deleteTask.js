@@ -1,5 +1,12 @@
+var $ = jQuery;
+
+$(function() {
+  $('#content').focus();
+});
+
 function change(list) {
     document.getElementById('hidd').value = list
+
 }
 
 function deleteCheckedTask() {
@@ -20,18 +27,32 @@ function deleteCheckedTask() {
     return arrTasksToDelete
 }
 
-// function changeDisplay() {
-//     let checkBox = document.getElementsByName('checkbox')
-//     var Arr = []
-//
-//     for (var i = 0; i < checkBox.length; i++) {
-//         if (checkBox[i].checked === true) {
-//             document.getElementById('trash').style.display = 'flex'}
-//         else
-//             document.getElementById('trash').style.display = 'none'
-//
-//     }
-// }
+function changeDisplay(taskId) {
+
+    id = document.getElementById(`task-${taskId}`)
+    var Arr = []
+    let checkBox = document.getElementsByName('checkbox');
+
+
+    function lastClick() {
+        console.log(id.checked)
+        id.checked === false ? document.getElementById('trash').style.display = 'flex'
+            : Arr.length <= 1 ? document.getElementById('trash').style.display = 'none' :
+        console.log(id.checked)
+    }
+
+    function allChecked() {
+        for (var i = 0; i < checkBox.length; i++) {
+            if (checkBox[i].checked === true ) {
+                Arr.push(i)
+            }
+        }
+        return Arr
+    }
+
+    lastClick(allChecked())
+    console.log(Arr)
+}
 
 // var data = {"name":"John Doe","age":"21"}
 // // function deleteTask() {

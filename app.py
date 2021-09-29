@@ -16,7 +16,7 @@ class Todo(db.Model):
     content = db.Column(db.String(300), nullable=False)
     important = db.Column(db.Integer, default=0)
     data_created = db.Column(db.DateTime, default=datetime.utcnow)
-    list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
+    list_id = db.Column(db.Integer, db.ForeignKey('list.id', ondelete="CASCADE"))
 
     def __repr__(self):
         return f"Todo('{self.id}', '{self.content}', '{self.list_id}')"
@@ -25,7 +25,7 @@ class Todo(db.Model):
 class List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(300), nullable=False)
-    tasks = db.relationship('Todo', backref='list', lazy='dynamic')
+    tasks = db.relationship('Todo', backref='list', cascade="all, delete", lazy='dynamic')
 
     def __repr__(self):
         return f"List('{self.id}', '{self.name}', '{self.tasks}')"
@@ -38,11 +38,12 @@ def create_list():
     if request.method == 'POST' and 'list' in request.form:
         lista = request.form['list']
         new_list = List(name=lista)
-
         try:
             db.session.add(new_list)
             db.session.commit()
-            return redirect('/')
+            list = List.query.filter_by(name=lista).first()
+            id = list.id
+            return redirect(f'/{id}')
         except:
             return 'There was an error while adding the task'
 
@@ -102,6 +103,31 @@ def delete(id):
         except:
             return 'There was an error while deleting that task'
 
+
+@app.route('/<int:id>/clear_list', methods=['GET'])
+def clear(id):
+    if request.method == 'GET':
+        try:
+            list = List.query.filter_by(id=id).first()
+            li = List.query.get(list.id)
+            Todo.query.filter_by(list=li).delete()
+            db.session.commit()
+            return redirect(f'/{id}')
+        except:
+            return 'There was an error while clearing list'
+
+
+@app.route('/<int:id>/delete_list', methods=['GET'])
+def delete_list(id):
+    if request.method == 'GET':
+        try:
+            list = List.query.get_or_404(id)
+            db.session.delete(list)
+            db.session.commit()
+
+            return redirect('/')
+        except:
+            return 'There was an error while deleting list'
 
 ##########################################
 @app.route('/update/<int:id>', methods=['GET', 'POST'])

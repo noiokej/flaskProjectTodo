@@ -2,7 +2,8 @@
   --clr-primary: #932fc5;
   --clr-light: #f4f4f4;
   --clr-dark: #333;
-  --clr-warning: rgb(99, 36, 36);
+  --clr-warning: rgb(148, 37, 37);
+  --clr-header: #e4e4e4;
 }
 
 *,
@@ -116,7 +117,8 @@ form {
 
 .todo-header {
   padding: var(--spacer);
-  background: #e4e4e4;
+  padding-bottom: 0;
+  background: var(--clr-header);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -130,6 +132,17 @@ form {
 .task-count {
   margin: 0;
   font-size: 0.9em;
+}
+
+.list-delete {
+  display: block;
+  background-color: var(--clr-header);
+  padding-left: var(--spacer);
+}
+
+.list-delete button {
+  font-size: 0.9em;
+  color: var(--clr-warning);
 }
 
 .todo-body {
@@ -214,14 +227,14 @@ form {
   transform-origin: left;
 }
 
-.ukryj {
-  display: none;
-}
-
 .todo-footer {
   background-color: #932fc5;
   color: var(--clr-light);
   padding-left: var(--spacer);
+}
+
+.trash button:hover {
+  background-color: #e4e4e4;
 }
 
 /*# sourceMappingURL=main.css.map */
