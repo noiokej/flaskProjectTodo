@@ -14,11 +14,6 @@
         <div class="col-12 d-flex flex-wrap all-tasks col-xxl-8 justify-content-center align-items-start">
             <div class="all-tasks">
                 <h1 class="task-list-title">My lists</h1>
-                <script>
-                    function change(list) {
-                        document.getElementById('hidd').value = list
-                    }
-                </script>
                 <ul class="task-list" id="pills-tab" role="tablist">
                      {% for list in lists %}
                         <li id="selectedList" onclick="change('{{ list.name }}')">
@@ -44,8 +39,8 @@
             </div>
 
             <div class="todo-list ">
-                <div class="todo-header">
-                    <h2 class="todo-list-title">{{ type_of_task }}</h2>
+                <div class="todo-header" id="todo-header">
+                    <h2 id="todo-list-title" class="todo-list-title">{{ type_of_task }}</h2>
                     <p class="task-count">Task remaining: {{ task_remaining|length }}</p>
                 </div>
                 <div class="list-delete">
@@ -55,7 +50,7 @@
                         </form>
                     {% endif %}
                 </div>
-                <div class="todo-body">
+                <div class="todo-body" id="todo-body">
                     <div class="tasks">
 
                         {% for task in taski %}
@@ -109,7 +104,7 @@
                                         type="hidden"
                                         name="delete"
                                         id="delete"
-                                        value="xddd"/>
+                                        value=""/>
                                 </form>
                             {% endif %}
                         </div>

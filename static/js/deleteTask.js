@@ -1,5 +1,15 @@
 var $ = jQuery;
 
+window.onload = function (){
+	let val = document.querySelector("h2.todo-list-title").innerHTML
+    if (val.length < 1) {
+        document.querySelector("h2.todo-list-title").innerHTML = '<i class="far fa-hand-point-left"></i> Select a list'
+        document.getElementById('todo-header').style.padding = '1.4rem'
+        document.querySelector("p.task-count").innerHTML = ""
+        document.getElementById('todo-body').style.display = 'none'
+    }
+}
+
 $(function() {
   $('#content').focus();
 });
