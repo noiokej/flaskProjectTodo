@@ -3,8 +3,11 @@
   --clr-light: #f4f4f4;
   --clr-dark: #333;
   //--clr-warning: rgb(99, 36, 36);
-  --clr-warning: rgb(148, 37, 37);
+  --clr-warning: rgb(203, 12, 12);
   --clr-header: #e4e4e4;
+  --clr-primary-light: #dec0ed;
+  --clr-primary-dark: #581C76;
+  --clr-primary-darker: #3D1352;
 }
 
 *,
@@ -15,10 +18,30 @@
 
 body {
   margin: 0;
-  font-family: "Work Sans", sans-serif;
+  //font-family: "Work Sans", sans-serif;
+  //font-family: 'Shadows Into Light', cursive;
+  font-family: 'Yaldevi', sans-serif;
   font-weight: 300;
   background-color: var(--clr-primary);
   height: 100vh;
+}
+
+.header {
+  background-color: var(--clr-primary-dark);
+  height: 150px;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header a {
+  color: var(--clr-primary-darker);
+  font-size: 6em;
+  font-weight: 800;
+  font-family: 'Shadows Into Light', cursive;
+  text-decoration: none;
 }
 
 .all-tasks {
@@ -120,7 +143,7 @@ form {
 .todo-header {
   padding: var(--spacer);
   padding-bottom: 0;
-  background: var(--clr-header);
+  background: var(--clr-primary-light);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -138,7 +161,7 @@ form {
 
 .list-delete {
   display: block;
-  background-color: var(--clr-header);
+  background-color: var(--clr-primary-light);
   padding-left: var(--spacer);
 }
 
@@ -237,7 +260,19 @@ form {
   padding-left: var(--spacer);
 }
 
+
+.trash {
+  padding-left: 10px;
+}
+
 .trash button:hover {
   background-color: #e4e4e4;
+}
 
+.btn-secondary:focus {
+  border-color: var(--clr-primary-light);
+  outline-color: var(--clr-primary-light);
+  border-left-color: #932fc5;
+  box-shadow: none;
+  border: none;
 }

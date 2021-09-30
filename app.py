@@ -24,7 +24,7 @@ class Todo(db.Model):
 
 class List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(300), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     tasks = db.relationship('Todo', backref='list', cascade="all, delete", lazy='dynamic')
 
     def __repr__(self):
@@ -38,12 +38,18 @@ def create_list():
     if request.method == 'POST' and 'list' in request.form:
         lista = request.form['list']
         new_list = List(name=lista)
+
         try:
-            db.session.add(new_list)
-            db.session.commit()
-            list = List.query.filter_by(name=lista).first()
-            id = list.id
-            return redirect(f'/{id}')
+            if 0 < len(lista) < 50:
+                db.session.add(new_list)
+                db.session.commit()
+                list = List.query.filter_by(name=lista).first()
+                id = list.id
+                return redirect(f'/{id}')
+            elif len(lista) < 0:
+                return 'List name is too short'
+            else:
+                return 'List name is too long'
         except:
             return 'There was an error while adding the task'
 
@@ -61,9 +67,15 @@ def create_task(id):
         new_task = Todo(content=task_content, list=lis)
 
         try:
-            db.session.add(new_task)
-            db.session.commit()
-            return display_task(id)
+            if 0 < len(task_content) < 300:
+                db.session.add(new_task)
+                db.session.commit()
+                return display_task(id)
+            elif len(task_content) < 0:
+                return 'Task name is too short'
+
+            else:
+                return 'Task name is too long'
 
         except:
             return 'There was an error while adding the task'

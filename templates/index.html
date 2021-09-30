@@ -4,12 +4,16 @@
 {% endblock %}
 
 {% block body %}
+<div class="header">
+    <a href="/">Todo list</a>
+</div>
+<div class="container", style="max-width: none">
 
-<div class="container h-100", style="max-width: none">
-    <div class="row align-items-center justify-content-center h-100">
-        <div class="col-12 d-flex flex-wrap all-tasks col-xxl-8  justify-content-center align-items-start">
+{#    <div class="row align-items-center justify-content-center h-100">#}
+    <div class="row justify-content-center">
+        <div class="col-12 d-flex flex-wrap all-tasks col-xxl-8 justify-content-center align-items-start">
             <div class="all-tasks">
-                <h2 class="task-list-title">My list</h2>
+                <h1 class="task-list-title">My lists</h1>
                 <script>
                     function change(list) {
                         document.getElementById('hidd').value = list
@@ -98,7 +102,7 @@
                         <div class="trash" id="trash" style="display: none; margin-top: 10px;">
                             {% if id %}
                                 <form action="{{ url_for('delete', id=id) }}" method="POST">
-                                    <button type="submit" class="btn btn-primary" style="color: darkred; transform: scale(1.5)">
+                                    <button type="submit" class="btn btn-secondary" style="color: var(--clr-warning); transform: scale(1.5)">
                                         <i onclick="deleteCheckedTask()" class="fas fa-trash-alt" title="Delete checked tasks" aria-label="Delete checked tasks"></i>
                                     </button>
                                     <input
@@ -115,7 +119,7 @@
                 <div class="todo-footer">
                     {% if id %}
                         <form action="{{ url_for('clear', id=id) }}" method="get">
-                            <button class="btn" type="submit" onclick="return confirm('Are you sure you want to clear this list?');">Clear list</button>
+                            <button class="btn" type="submit" onclick="return confirm('Are you sure you want to clear this list?');">Clear list <i class="fas fa-broom"></i></button>
                         </form>
                     {% endif %}
                 </div>
