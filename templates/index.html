@@ -33,8 +33,9 @@
                     />
                     <button type="submit"
                             name="submit_list"
+                            id="submit_list"
                             class="btn create"
-                            aria-label="create new list">+</button>
+                            aria-label="create new list" disabled >+</button>
                 </form>
             </div>
 
@@ -91,8 +92,9 @@
 
                             <button type="submit"
                                     name="submit_task"
+                                    id="submit_task"
                                     class="btn create"
-                                    aria-label="create new task">+</button>
+                                    aria-label="create new task" disabled >+</button>
                         </form>
                         <div class="trash" id="trash" style="display: none; margin-top: 10px;">
                             {% if id %}

@@ -46,8 +46,6 @@ def create_list():
                 list = List.query.filter_by(name=lista).first()
                 id = list.id
                 return redirect(f'/{id}')
-            elif len(lista) < 0:
-                return 'List name is too short'
             else:
                 return 'List name is too long'
         except:
@@ -71,9 +69,6 @@ def create_task(id):
                 db.session.add(new_task)
                 db.session.commit()
                 return display_task(id)
-            elif len(task_content) < 0:
-                return 'Task name is too short'
-
             else:
                 return 'Task name is too long'
 
